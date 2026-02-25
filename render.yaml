@@ -1,0 +1,67 @@
+services:
+  - type: web
+    name: school-management-api
+    env: node
+    region: oregon
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+
+    envVars:
+      # Environment
+      - key: NODE_ENV
+        value: production
+      - key: ENV
+        value: production
+      - key: SERVICE_NAME
+        value: school-management-api
+
+      # Server Port
+      - key: USER_PORT
+        value: 10000
+
+      # MongoDB (from MongoDB Atlas)
+      - key: MONGO_URI
+        fromEnvFile: .env
+
+      # Redis (from Redis instance below)
+      - key: CACHE_REDIS
+        fromService:
+          name: school-management-redis
+          type: redis
+          property: connectionString
+
+      - key: CORTEX_REDIS
+        fromService:
+          name: school-management-redis
+          type: redis
+          property: connectionString
+
+      - key: OYSTER_REDIS
+        fromService:
+          name: school-management-redis
+          type: redis
+          property: connectionString
+
+      # Prefixes
+      - key: CORTEX_PREFIX
+        value: sms:cortex
+      - key: OYSTER_PREFIX
+        value: sms:oyster
+      - key: CACHE_PREFIX
+        value: sms:cache
+      - key: CORTEX_TYPE
+        value: school-management-api
+
+      # JWT Secrets (MUST CHANGE IN PRODUCTION!)
+      - key: LONG_TOKEN_SECRET
+        value: your-very-long-random-string-32-chars-minimum-change-this
+      - key: SHORT_TOKEN_SECRET
+        value: your-very-long-random-string-32-chars-minimum-change-this
+      - key: NACL_SECRET
+        value: dGhpcyBpcyBhIDMyIGNoYXIgbmFjbCBzZWNyZXQga2V5Lg==
+
+redis:
+  - name: school-management-redis
+    region: oregon
+    plan: free
