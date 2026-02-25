@@ -1,0 +1,11 @@
+{
+  "watch": ["index.js", "managers", "config", "mws", "loaders"],
+  "ignore": ["node_modules", "*.md", ".git", "public", "cache"],
+  "ext": "js",
+  "delay": 1000,
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "verbose": false,
+  "restartable": "rs"
+}
